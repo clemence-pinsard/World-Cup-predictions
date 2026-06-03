@@ -1,3 +1,10 @@
+# Other packages
+install.packages(c("posterior", "bayesplot", "loo"))
+
+library(posterior)
+library(bayesplot)
+library(loo)
+
 # install.packages("devtools")
 
 library(dplyr)
@@ -19,9 +26,4 @@ library(footBayes)
 packageVersion("footBayes")           
 instantiate::stan_cmdstan_exists()
 
-# Other packages
-install.packages(c("posterior", "bayesplot", "loo"))
 
-library(posterior)
-library(bayesplot)
-library(loo)

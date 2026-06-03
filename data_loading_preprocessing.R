@@ -88,6 +88,9 @@ results_footBayes_train <- results_footBayes %>%
 results_footBayes_train <- results_footBayes_train %>%
   filter(!is.na(home_goals) & !is.na(away_goals) )
 
+wc2026_train_teams <- unique(results_footBayes_train$home_team)
+wc2026_ranking <- ranking %>% filter(team %in% wc2026_train_teams)
+
 # Data with the groupstage 1 games
 
 ngames_groupstage1 <- 24
