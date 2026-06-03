@@ -20,9 +20,8 @@ packageVersion("footBayes")
 instantiate::stan_cmdstan_exists()
 
 # Other packages
-install.packages(c("posterior", "bayesplot", "loo", "ggrepel"))
+install.packages(c("posterior", "bayesplot", "loo"))
 
 library(posterior)
 library(bayesplot)
 library(loo)
-library(ggrepel)
