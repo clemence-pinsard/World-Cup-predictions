@@ -3,9 +3,10 @@ fit <- stan_foot(data = results_footBayes_groupstage1,
                  predict= ngames_groupstage1,
                  ranking = wc2026_ranking,
                  dynamic_type = "seasonal",
-                 home_effect = FALSE)
+                 home_effect = FALSE,
+                 save_cmdstan_config = TRUE)
 
-prob <- foot_prob(fit, euro_data_stan[,-6])
+prob <- foot_prob(fit, results_footBayes_groupstage1)
 colnames(prob$prob_table) <- c("home", "away",
                                "home win", "draw", "away win", "mlo")
 knitr::kable(prob$prob_table)
