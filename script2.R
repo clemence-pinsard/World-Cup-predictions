@@ -34,36 +34,32 @@ homegoals = rep(NA, ngames_groupstage1)
                           
 awaygoals = rep(NA, ngames_groupstage1)
 
-home = rep(0, 2*ngames_groupstage1)
+home = c(footdata_raw$neutral, rep(0, ngames_groupstage1))
 
-data_final = data.frame()
+data_final = data.frame(ht = hometeam,
+                        at = awayteam,
+                        goals1 = homegoals,
+                        goals2 = awaygoals)
 
+data_final <- data_final %>% 
+  mutate(ht = factor(ht, levels = levels(footdata_raw$ht)),
+         at = factor(at, levels = levels(footdata_raw$ht)))
 
+# Final data
 
-
-
-
-
-finale <- data.frame(
-  ht = factor("PSG", levels = levels(footdata_raw$ht)),
-  at = factor("Arsenal", levels = levels(footdata_raw$ht)),
-  goals1 = NA,
-  goals2 = NA
-)
-
-footdata_raw <- rbind(footdata_raw[, c("ht","at","goals1","goals2")], finale)
-
-h <- c(rep(1, nrow(footdata_raw)-1), 0)
+footdata_raw <- rbind(footdata_raw[, c("ht","at","goals1","goals2")], data_final)
 
 footdata <- list(
   ht = as.numeric(footdata_raw$ht),
   at = as.numeric(footdata_raw$at),
   goals1 = footdata_raw$goals1,
   goals2 = footdata_raw$goals2,
-  h = h,
+  h = home,
   n = nrow(footdata_raw),
-  K = 36
+  K = 48
 )
+
+# Initialization of the parameters
 
 inits_multi <- list(
   list(mu = 0.5,  home = 0.5,  a = c(NA, rep(0, 35)), d = c(NA, rep(0, 35))),
@@ -72,3 +68,14 @@ inits_multi <- list(
 )
 
 parameter.names <- c('mu', 'home', 'a', 'd', 'goals1', 'goals2')
+
+# The model 
+
+model1 <- bugs(footdata, inits_multi, model.file = "DP1.txt", 
+               parameters = parameter.names,
+               n.chains = 3, n.iter = 10000, n.burnin = 1000, n.thin = 1,
+               debug = F)
+
+n_matches <- footdata$n
+
+index_finale <- c(n_matches, n_matches + footdata$n)
