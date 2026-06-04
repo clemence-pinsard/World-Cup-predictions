@@ -32,5 +32,5 @@ colnames(prob_dp$prob_table) <- c("home", "away",
                                "home win", "draw", "away win", "mlo")
 knitr::kable(prob_dp$prob_table)
 #save prob$prob_table as csv
-write.csv(prob_dp$prob_table, "groupstage_1.csv", row.names = FALSE)
+write.csv(prob_dp$prob_table, "groupstage_1_dp.csv", row.names = FALSE)
 prob_dp$prob_plot
